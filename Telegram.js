@@ -56,11 +56,12 @@ bot.onText(/\/run/, (msg) => {
   );
 });
 
-bot.onText(/\/abcd/, (msg) => {
+bot.onText(/\/test/, (msg) => {
   const chatId = msg.chat.id;
-  console.log(chatId);
-  bot.sendMessage(chatId, "Welcome!");
+  console.log(msg.chat.username);
+  bot.sendMessage(chatId, "Welcome! This is test");
 });
+
 
 // function sendMessage(messageObj, messageText) {
 //   return axiosInstance.get("sendMessage", {
