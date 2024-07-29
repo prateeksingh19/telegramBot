@@ -1,6 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api");
 
-const token = "7038548500:AAHgWxi5d1ZJHdtkNwCUFhevgwlqT4V0RGw";
+const token = "7263679037:AAHOI2wDdQZy-bfBJP6U4sZLcnnRM3j21Gk";
 
 const bot = new TelegramBot(token, { polling: true });
 
@@ -61,7 +61,6 @@ bot.onText(/\/test/, (msg) => {
   console.log(msg.chat.username);
   bot.sendMessage(chatId, "Welcome! This is test");
 });
-
 
 // function sendMessage(messageObj, messageText) {
 //   return axiosInstance.get("sendMessage", {
