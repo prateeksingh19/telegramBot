@@ -2,18 +2,22 @@ const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 
 const app = express();
-const PORT = process.env.PORT || 4000;
-
-const token = "7263679037:AAHOI2wDdQZy-bfBJP6U4sZLcnnRM3j21Gk";
+const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(token);
 
 // This informs the Telegram servers to send updates to the webhook URL
-const domain = "https://telegram-bot-flame.vercel.app"; // Replace with your Vercel domain
-const webhookURL = `${domain}/bot${token}`;
+const domain = process.env.DOMAIN; // Use an environment variable for the domain
+const webhookURL = `${domain}/api/bot${token}`;
 
 bot.setWebHook(webhookURL);
 
 app.use(express.json());
+
+// This route receives updates from Telegram
+app.post(`/api/bot${token}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -73,9 +77,8 @@ bot.on("polling_error", (error) => {
   console.error(error);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app; // Export the app for Vercel
+
 // function sendMessage(messageObj, messageText) {
 //   return axiosInstance.get("sendMessage", {
 //     chat_id: messageObj.chat.id,
