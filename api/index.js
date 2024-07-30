@@ -4,6 +4,15 @@ const token = "7263679037:AAHOI2wDdQZy-bfBJP6U4sZLcnnRM3j21Gk";
 
 const bot = new TelegramBot(token, { polling: true });
 
+const express = require("express");
+const app = express();
+const PORT = 4000;
+app.get("/api", (req, res) => {
+  res.send("Hello from api");
+});
+app.listen(PORT, () => {
+  console.log("Server is running");
+});
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const url = "https://tap-bot-telegram-git-main-dev-1ces-projects.vercel.app/";
