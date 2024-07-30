@@ -15,12 +15,6 @@ bot.setWebHook(webhookURL);
 
 app.use(express.json());
 
-// This route receives updates from Telegram
-app.post(`/bot${token}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
-
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const url = "https://tap-bot-telegram-git-main-dev-1ces-projects.vercel.app/";
