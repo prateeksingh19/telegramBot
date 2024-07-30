@@ -1,23 +1,8 @@
-const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 
-const app = express();
-const token = process.env.TELEGRAM_BOT_TOKEN;
-const bot = new TelegramBot(token);
+const token = "7263679037:AAHOI2wDdQZy-bfBJP6U4sZLcnnRM3j21Gk";
 
-// This informs the Telegram servers to send updates to the webhook URL
-const domain = process.env.DOMAIN; // Use an environment variable for the domain
-const webhookURL = `${domain}/api/bot${token}`;
-
-bot.setWebHook(webhookURL);
-
-app.use(express.json());
-
-// This route receives updates from Telegram
-app.post(`/api/bot${token}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
+const bot = new TelegramBot(token, { polling: true });
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -41,6 +26,10 @@ bot.onText(/\/start/, (msg) => {
     "Welcome! Click the button below to play the game.",
     opts
   );
+});
+
+bot.on("polling_error", (error) => {
+  console.error(error);
 });
 
 bot.onText(/\/run/, (msg) => {
@@ -72,12 +61,6 @@ bot.onText(/\/test/, (msg) => {
   console.log(msg.chat.username);
   bot.sendMessage(chatId, "Welcome! This is test");
 });
-
-bot.on("polling_error", (error) => {
-  console.error(error);
-});
-
-module.exports = app; // Export the app for Vercel
 
 // function sendMessage(messageObj, messageText) {
 //   return axiosInstance.get("sendMessage", {
